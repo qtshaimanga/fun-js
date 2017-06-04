@@ -5,7 +5,7 @@ const App = () => (
   <div>
     <header className="header">
       <h1>todos</h1>
-      <NewTodo />
+      <NewTodo onCommit={console.log} />
     </header>
   </div>
 );
