@@ -1,38 +1,50 @@
-import React from 'react';
-import { withState, withHandlers, compose } from 'recompose';
+import React, { Component } from 'react';
 
-const onChange = ({ setValue }) => e => setValue(e.target.value);
+class NewTodo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: ''
+    };
 
-const onKeyDown = ({ value, setValue, onCommit }) => e => {
-  switch (e.key) {
-    case 'Enter':
-      e.preventDefault();
-      value && onCommit(value);
-      setValue('');
-      break;
-    case 'Escape':
-      e.preventDefault();
-      setValue('');
-      break;
-    default:
-    // noop
+    this.onChange = this.onChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
-};
 
-const makeNewTodo = compose(
-  withState('value', 'setValue', ''),
-  withHandlers({ onChange, onKeyDown })
-);
+  onChange(event) {
+    this.setState({ value: event.target.value });
+  }
 
-const NewTodo = ({ value, onChange, onKeyDown }) => (
-  <input
-    className="new-todo"
-    placeholder="What needs to be done?"
-    autoFocus={true}
-    value={value}
-    onChange={onChange}
-    onKeyDown={onKeyDown}
-  />
-);
+  onKeyDown(event) {
+    switch (event.key) {
+      case 'Enter':
+        event.preventDefault();
+        if (this.state.value !== '') {
+          this.props.onCommit(this.state.value.trim());
+        }
+        this.setState({ value: '' });
+        break;
+      case 'Escape':
+        event.preventDefault();
+        this.setState({ value: '' });
+        break;
+      default:
+      // noop
+    }    
+  }
+  
+  render() {
+    return (
+      <input
+        className="new-todo"
+        placeholder="What needs to be done?"
+        autoFocus={true}
+        value={this.state.value}
+        onChange={this.onChange}
+        onKeyDown={this.onKeyDown}
+      />
+    );
+  }
+}
 
-export default makeNewTodo(NewTodo);
+export default NewTodo;

@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
+import TodoStore from './model/TodoStore';
 
 import 'todomvc-common/base.css';
 import 'todomvc-app-css/index.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+const todoStore = new TodoStore('todos');
+
+ReactDOM.render(
+  <App model={todoStore} />,
+  document.getElementById('root')
+);

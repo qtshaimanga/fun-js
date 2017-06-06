@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ramda": "^0.24.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "recompose": "^0.23.4",
     "todomvc-app-css": "^2.1.0",
-    "todomvc-common": "^1.0.3"
+    "todomvc-common": "^1.0.3",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"
