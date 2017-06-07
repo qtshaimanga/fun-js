@@ -5,9 +5,9 @@ and how to use it in React and Redux
 ---
 
 ### Wolfgang Goedel
-Team Leader Front @SFEIR
+Team Leader Front
 
-<img src="sfeir.png" width="50%">
+<img src="src/img/sfeir.png" width="33%" style="border: 0; box-shadow: none">
 
 @wgoedel
 
@@ -203,15 +203,3 @@ if (a !== b) {
 
 Note:
 - mutation tracking: get a reference, keep it, use it later --> you connot assume it is still what you expect it to be
-
-
---- 
-
-## combine functions
-
-
-
-
----
-
-**Functional programming** is **declarative** rather than **imperative**, which means programming is done with **expressions** or **declarations** instead of **statements**.

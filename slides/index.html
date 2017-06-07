@@ -7,7 +7,7 @@
 		<title>Functional JavaScript</title>
 
 		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
-		<link rel="stylesheet" href="node_modules/reveal.js/css/theme/simple.css">
+		<link rel="stylesheet" href="node_modules/reveal.js/css/theme/white.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
@@ -24,7 +24,12 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-markdown="slides.md"  
+				<section data-markdown="src/intro.md"  
+								data-separator="^\n-{1,}\n\n"  
+								data-separator-vertical="^\n\n\n"  
+								data-separator-notes="^Note:">
+				</section>
+				<section data-markdown="src/combine.md"  
 								data-separator="^\n-{1,}\n\n"  
 								data-separator-vertical="^\n\n\n"  
 								data-separator-notes="^Note:">
