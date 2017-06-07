@@ -144,3 +144,13 @@ npm install
 npm test
 ````
 <!-- .element: class="fragment" -->
+
+edit<br>
+src/justjs/combine.js<br>
+make all tests pass
+<!-- .element: class="fragment" -->
+
+don't use Array.prototype functions,<br>
+that would be too easy
+<!-- .element: class="fragment" -->
+
