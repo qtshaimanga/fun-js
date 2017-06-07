@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import App from './fun-components/App';
 import TodoStore from './model/TodoStore';
 
 import 'todomvc-common/base.css';
