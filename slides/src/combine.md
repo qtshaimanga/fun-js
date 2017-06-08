@@ -158,6 +158,7 @@ that would be too easy
 
 ````bash
 # if you want to keep your work
+git add .
 git commit -m "whatever you want"
 git checkout ex/combine-solution
 
