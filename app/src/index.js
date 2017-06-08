@@ -8,13 +8,28 @@ import 'todomvc-common/base.css';
 import 'todomvc-app-css/index.css';
 
 const appRoot = document.getElementById('root');
-const store = createStore(rootReducer);
-const dispatch = store.dispatch.bind(store);
 
-const render = () => ReactDOM.render(
-  <App todos={store.getState()} dispatch={dispatch} />,
+const loadState = () => {
+  const persistedState = localStorage.getItem('todos');
+  return persistedState ? JSON.parse(persistedState) : undefined;
+};
+
+const saveState = (state) => {
+  localStorage.setItem('todos', JSON.stringify(state));
+}
+
+const store = createStore(rootReducer, loadState());
+
+const renderReactApp = (todos, dispatch) => ReactDOM.render(
+  <App todos={todos} dispatch={dispatch} />,
   appRoot
 );
+
+const render = () => {
+  const todos = store.getState();
+  saveState(todos);
+  renderReactApp(todos, store.dispatch);
+}
 
 store.subscribe(render);
 render();
