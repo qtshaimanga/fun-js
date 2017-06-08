@@ -11,11 +11,7 @@ const eql = (a, b) => a === b;
 // use map twice to get the uppercase first letters
 // or once with a composition of firstletter and uppercase ;)
 // use reduce with add to concat
-export const initials = compose(
-  reduce(add, ''),
-  map(uppercase),
-  map(firstLetter)
-);
+export const initials = () => {};
 
 
 // recode sumOfEven using composition
@@ -24,19 +20,10 @@ export const initials = compose(
 // don't hesitate to define helper functions
 // hint: flip changes the order of parameters,
 // you may need it for mod which is not commutative
-const eqlc = curry(eql);
-const modc = curry(flip(mod));
-const isEven = compose(eqlc(0), modc(2));
-
-export const sumOfEven = compose(
-  reduce(add, 0),
-  filter(isEven)
-);
+export const sumOfEven = () => {};
 
 
 // implement min3letters using filter
 // you may define a helper function
 // which returns a filter function
-const minLength = curry((min, w) => w.length >= min);
-
-export const min3letters = filter(minLength(3));
+export const min3letters = () => {};
