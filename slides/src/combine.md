@@ -137,7 +137,7 @@ you may expect **map** and **filter** now...
 
 ````bash
 git clone https://github.com/wolfgangGoedel/fun-js.git
-git checkout combine1
+git checkout ex/combine
 
 cd app
 npm install
@@ -154,3 +154,13 @@ don't use Array.prototype functions,<br>
 that would be too easy
 <!-- .element: class="fragment" -->
 
+---
+
+````bash
+# if you want to keep your work
+git commit -m "whatever you want"
+git checkout ex/combine-solution
+
+# if you are not so proud of what you've done
+git checkout -f ex/combine-solution
+````
