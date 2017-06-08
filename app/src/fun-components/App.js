@@ -1,101 +1,75 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { withState, withHandlers } from 'recompose';
+import { compose, filter, reduce } from 'ramda';
+
+import * as actions from '../model/actions';
 import NewTodo from './NewTodo';
 import TodoList from './TodoList';
 import Footer from './Footer';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todos: this.props.model.todos,
-      nowShowing: 'all'
+const withNowShowing = withState('nowShowing', 'setShowing', 'all');
+
+const addTodo = ({ dispatch }) => (text) => dispatch(actions.addTodo(text));
+const toggleAll = ({ dispatch }) => (completed) => dispatch(actions.toggleAll(completed));
+const toggleOne = ({ dispatch }) => (todo) => dispatch(actions.toggleOne(todo));
+const destroy = ({ dispatch }) => (todo) => dispatch(actions.destroy(todo));
+const clearCompleted = ({ dispatch }) => () => dispatch(actions.clearCompleted());
+const show = ({ setShowing }) => (filter) => setShowing(filter);
+
+const withAllHandlers = withHandlers({
+  addTodo, toggleAll, toggleOne, destroy, clearCompleted, show
+});
+
+const enhance = compose(withNowShowing, withAllHandlers);
+
+const App = ({
+  todos,
+  nowShowing,
+  addTodo,
+  toggleAll,
+  toggleOne,
+  destroy,
+  clearCompleted,
+  show
+}) => {
+
+  const shownTodos = filter(todo => {
+    switch (nowShowing) {
+      case 'active': return !todo.completed;
+      case 'completed': return todo.completed;
+      default: return true;
     }
+  }, todos);
+  
+  const activeTodoCount = reduce((a, todo) => todo.completed ? a : a + 1, 0, todos);
+  const completedTodoCount = reduce((a, todo) => todo.completed ? a + 1 : a, 0, todos);
 
-    this.addTodo = this.addTodo.bind(this);
-    this.toggleAll = this.toggleAll.bind(this);
-    this.toggleOne = this.toggleOne.bind(this);
-    this.destroy = this.destroy.bind(this);
-    this.clearCompleted = this.clearCompleted.bind(this);
-    this.show = this.show.bind(this);
-  }
-
-  addTodo(text) {
-    this.props.model.addTodo(text);
-    this.setState({ todos: this.props.model.todos });
-  }
-
-  toggleAll(completed) {
-    this.props.model.toggleAll(completed);
-    this.setState({ todos: this.props.model.todos });
-  }
-
-  toggleOne(todo) {
-    this.props.model.toggle(todo);
-    this.setState({ todos: this.props.model.todos });
-  }
-
-  destroy(todo) {
-    this.props.model.destroy(todo);
-    this.setState({ todos: this.props.model.todos });
-  }
-
-  clearCompleted() {
-    this.props.model.clearCompleted();
-    this.setState({ todos: this.props.model.todos });
-  }
-
-  show(filter) {
-    this.setState({ nowShowing: filter });
-  }
-
-  render() {
-    const { todos, nowShowing } = this.state;
-    
-    const shownTodos = [];
-    let activeTodoCount = 0;
-    let completedTodoCount = 0;
-
-    for (const todo of todos) {
-      if (todo.completed) {
-        completedTodoCount++;
-        if (nowShowing !== 'active') {
-          shownTodos.push(todo);
-        }
-      } else {
-        activeTodoCount++;
-        if (nowShowing !== 'completed') {
-          shownTodos.push(todo);
-        }
+  return (
+    <div>
+      <header className="header">
+        <h1>todos</h1>
+        <NewTodo onCommit={addTodo} />
+      </header>
+      {(shownTodos.length > 0) &&
+        <TodoList
+          todos={shownTodos}
+          onToggleAll={toggleAll}
+          onToggleOne={toggleOne}
+          onDestroy={destroy}
+          allCompleted={activeTodoCount === 0}
+        />
       }
-    }
-        
-    return (
-      <div>
-        <header className="header">
-          <h1>todos</h1>
-          <NewTodo onCommit={this.addTodo} />
-        </header>
-        { (shownTodos.length > 0) &&
-          <TodoList
-            todos={shownTodos}
-            onToggleAll={this.toggleAll}
-            onToggleOne={this.toggleOne}
-            onDestroy={this.destroy}
-            allCompleted={activeTodoCount === 0}
-          />
-        }
-        { (todos.length > 0) &&
-          <Footer
-            activeCount={activeTodoCount}
-            completedCount={completedTodoCount}
-            onClearCompleted={this.clearCompleted}
-            nowShowing={nowShowing}
-            onShow={this.show}
-          />
-        }
-      </div>
-    );
-  }
-}
+      {(todos.length > 0) &&
+        <Footer
+          activeCount={activeTodoCount}
+          completedCount={completedTodoCount}
+          onClearCompleted={clearCompleted}
+          nowShowing={nowShowing}
+          onShow={show}
+        />
+      }
+    </div>
+  );
+};
 
-export default App;
+export default enhance(App);
