@@ -1,4 +1,5 @@
-import { todoReducer as reducer } from './TodoReducer';
+import { makeAddTodoWithId, toggleAll, toggleOne, destroy, clearCompleted } from './actions';
+import reducer from './reducer';
 
 describe('todoReducer', () => {
 
@@ -20,27 +21,27 @@ describe('todoReducer', () => {
   });
 
   it('should handle ADD_TODO', () => {
-    const actual = reducer([todo1], { type: 'ADD_TODO', todo: todo2 });
+    const actual = reducer([todo1], makeAddTodoWithId(() => '2')('two'));
     expect(actual).toEqual([todo1, todo2]);
   });
 
   it('should handle TOGGLE_ALL', () => {
-    const actual = reducer([todo1, todo2], { type: 'TOGGLE_ALL', completed: true });
+    const actual = reducer([todo1, todo2], toggleAll(true));
     expect(actual).toEqual([todo1, {...todo2, completed: true}]);
   });
 
   it('should handle TOGGLE_ONE', () => {
-    const actual = reducer([todo1, todo2], { type: 'TOGGLE_ONE', todo: todo2 });
+    const actual = reducer([todo1, todo2], toggleOne(todo2));
     expect(actual).toEqual([todo1, {...todo2, completed: true}]);
   });
 
   it('should handle DESTROY', () => {
-    const actual = reducer([todo1, todo2], { type: 'DESTROY', todo: todo1 });
+    const actual = reducer([todo1, todo2], destroy(todo1));
     expect(actual).toEqual([todo2]);
   });
 
   it('should handle CLEAR_COMPLETED', () => {
-    const actual = reducer([todo1, todo2], { type: 'CLEAR_COMPLETED' });
+    const actual = reducer([todo1, todo2], clearCompleted());
     expect(actual).toEqual([todo2]);
   });
 });

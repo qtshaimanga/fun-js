@@ -1,41 +1,25 @@
-import { v4 as newUuid } from 'uuid';
-import { append, map, set, equals, ifElse, over, lensProp, not, identity, without, filter, compose, view } from 'ramda';
-
-// actions
-
-export const addTodo = (text) => ({
-  type: 'ADD_TODO',
-  todo: {
-    id: newUuid(),
-    title: text,
-    completed: false
-  }
-});
-
-export const toggleAll = (completed) => ({
-  type: 'TOGGLE_ALL',
-  completed
-});
-
-export const toggleOne = (todo) => ({
-  type: 'TOGGLE_ONE',
-  todo
-});
-
-export const destroy = (todo) => ({
-  type: 'DESTROY',
-  todo
-});
-
-export const clearCompleted = () => ({
-  type: 'CLEAR_COMPLETED'
-});
+import {
+  append,
+  map,
+  set,
+  equals,
+  ifElse,
+  over,
+  lensProp,
+  not,
+  identity,
+  without,
+  filter,
+  compose,
+  view
+} from 'ramda';
 
 
 const completedLens = lensProp('completed');
 const isActive = compose(not, view(completedLens));
 const toggleCompleted = over(completedLens, not);
 const setCompleted = set(completedLens);
+
 
 const transform = (action) => {
   switch (action.type) {
@@ -54,6 +38,7 @@ const transform = (action) => {
   }
 };
 
-export const todoReducer = (todos = [], action) => {
+
+export default (todos = [], action) => {
   return transform(action)(todos); 
 };
